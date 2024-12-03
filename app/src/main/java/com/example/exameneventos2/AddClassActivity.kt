@@ -35,7 +35,7 @@ fun AddClassScreen() {
     var horaFin by remember { mutableStateOf("") }
     var dia by remember { mutableStateOf("") }
     val horas = (8..14).map { "$it:00" }
-    val dias = listOf("Lunes", "Tuesday", "Miércoles", "Jueves", "Viernes")
+    val dias = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
     var expandedInicio by remember { mutableStateOf(false) }
     var expandedFin by remember { mutableStateOf(false) }
     var expandedDia by remember { mutableStateOf(false) }

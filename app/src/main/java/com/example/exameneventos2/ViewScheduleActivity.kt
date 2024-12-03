@@ -30,7 +30,7 @@ class ViewScheduleActivity : ComponentActivity() {
 @Composable
 fun ViewScheduleScreen() {
     var selectedDay by remember { mutableStateOf("") }
-    val days = listOf("Lunes", "Tuesday", "Miércoles", "Jueves", "Viernes")
+    val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
     var expandedDay by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val db = FirebaseFirestore.getInstance()
