@@ -1,6 +1,7 @@
 package com.example.exameneventos2
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -10,9 +11,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.exameneventos2.ui.theme.ExamenEventos2Theme
+import com.google.firebase.firestore.FirebaseFirestore
 
 class AddClassActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +35,12 @@ fun AddClassScreen() {
     var horaFin by remember { mutableStateOf("") }
     var dia by remember { mutableStateOf("") }
     val horas = (8..14).map { "$it:00" }
+    val dias = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
     var expandedInicio by remember { mutableStateOf(false) }
     var expandedFin by remember { mutableStateOf(false) }
+    var expandedDia by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val db = FirebaseFirestore.getInstance()
 
     Scaffold(
         modifier = Modifier.fillMaxSize()
@@ -117,18 +124,50 @@ fun AddClassScreen() {
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            TextField(
-                value = dia,
-                onValueChange = { dia = it },
-                label = { Text("Día") },
-                modifier = Modifier.fillMaxWidth()
-            )
+            Box {
+                TextField(
+                    value = dia,
+                    onValueChange = {},
+                    readOnly = true,
+                    label = { Text("Día") },
+                    trailingIcon = {
+                        IconButton(onClick = { expandedDia = true }) {
+                            Icon(Icons.Default.ArrowDropDown, contentDescription = null)
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                DropdownMenu(
+                    expanded = expandedDia,
+                    onDismissRequest = { expandedDia = false }
+                ) {
+                    dias.forEach { diaItem ->
+                        DropdownMenuItem(
+                            text = { Text(diaItem) },
+                            onClick = {
+                                dia = diaItem
+                                expandedDia = false
+                            }
+                        )
+                    }
+                }
+            }
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Button(onClick = { /* TODO: Handle accept action */ }) {
+                Button(onClick = {
+                    val clase = Clase(nombre, horaInicio, horaFin, dia)
+                    db.collection("Clase")
+                        .add(clase)
+                        .addOnSuccessListener {
+                            Toast.makeText(context, "Clase añadida", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(context, "Error al añadir clase: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }) {
                     Text("Aceptar")
                 }
                 Button(onClick = { /* TODO: Handle cancel action */ }) {
