@@ -19,10 +19,14 @@
             android:theme="@style/Theme.ExamenEventos2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AddClassActivity"
+            android:exported="true"
+            android:label="Add Class"
+            android:theme="@style/Theme.ExamenEventos2" />
     </application>
 
 </manifest>
