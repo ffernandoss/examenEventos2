@@ -158,18 +158,30 @@ fun AddClassScreen() {
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Button(onClick = {
-                    val clase = Clase(nombre, horaInicio, horaFin, dia)
-                    db.collection("Clase")
-                        .add(clase)
-                        .addOnSuccessListener {
-                            Toast.makeText(context, "Clase añadida", Toast.LENGTH_SHORT).show()
-                        }
-                        .addOnFailureListener { e ->
-                            Toast.makeText(context, "Error al añadir clase: ${e.message}", Toast.LENGTH_SHORT).show()
-                        }
-                }) {
-                    Text("Aceptar")
-                }
+    db.collection("Clase")
+        .whereEqualTo("horaInicio", horaInicio)
+        .get()
+        .addOnSuccessListener { documents ->
+            if (documents.isEmpty) {
+                val clase = Clase(nombre, horaInicio, horaFin, dia)
+                db.collection("Clase")
+                    .add(clase)
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "Clase añadida", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(context, "Error al añadir clase: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(context, "Ya existe una clase con esa hora de inicio", Toast.LENGTH_SHORT).show()
+            }
+        }
+        .addOnFailureListener { e ->
+            Toast.makeText(context, "Error al verificar la hora de inicio: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+}) {
+    Text("Aceptar")
+}
                 Button(onClick = { /* TODO: Handle cancel action */ }) {
                     Text("Cancelar")
                 }
