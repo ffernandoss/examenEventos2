@@ -27,6 +27,11 @@
             android:exported="true"
             android:label="Add Class"
             android:theme="@style/Theme.ExamenEventos2" />
+        <activity
+            android:name=".ViewScheduleActivity"
+            android:exported="true"
+            android:label="View Schedule"
+            android:theme="@style/Theme.ExamenEventos2" />
     </application>
 
 </manifest>

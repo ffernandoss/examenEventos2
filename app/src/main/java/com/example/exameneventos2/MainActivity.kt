@@ -40,7 +40,7 @@ fun MainScreen() {
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(Color.LightGray),
+                .background(Color.White),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
@@ -62,7 +62,9 @@ fun MainScreen() {
             }
             Spacer(modifier = Modifier.height(8.dp))
             Button(
-                onClick = { /* TODO: Ver horario */ },
+                onClick = {
+                    context.startActivity(Intent(context, ViewScheduleActivity::class.java))
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
