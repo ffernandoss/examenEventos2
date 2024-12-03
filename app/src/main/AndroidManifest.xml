@@ -32,6 +32,11 @@
             android:exported="true"
             android:label="View Schedule"
             android:theme="@style/Theme.ExamenEventos2" />
+        <activity
+            android:name=".CurrentClassActivity"
+            android:exported="true"
+            android:label="Mi Horario - Qué Toca Ahora"
+            android:theme="@style/Theme.ExamenEventos2" />
     </application>
 
 </manifest>

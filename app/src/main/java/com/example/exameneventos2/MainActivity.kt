@@ -73,7 +73,9 @@ fun MainScreen() {
             }
             Spacer(modifier = Modifier.height(8.dp))
             Button(
-                onClick = { /* TODO: Que toca ahora? */ },
+                onClick = {
+                    context.startActivity(Intent(context, CurrentClassActivity::class.java))
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
